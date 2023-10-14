@@ -35,10 +35,14 @@
     "dotenv": "^16.3.1",
     "express-validator": "^7.0.1",
     "jsonwebtoken": "^9.0.2",
-    "mongoose": "^7.6.1"
+    "mongoose": "^7.6.1",
+    "socket.io": "^4.7.2"
   },
   "nodemonConfig": {
-    "ignore": ["**/test/**", "**/docs/**"],
+    "ignore": [
+      "**/test/**",
+      "**/docs/**"
+    ],
     "delay": 2500
   }
 }
