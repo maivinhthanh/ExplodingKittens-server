@@ -1,1 +1,11 @@
-
+export * as kitten from './kitten';
+export * as attack from './attack';
+export * as defense from './defense';
+export * as destruction from './destruction';
+export * as drawing from './drawing';
+export * as exploding from './exploding';
+export * as future from './future';
+export * as nope from './nope';
+export * as shuffle from './shuffle';
+export * as streaking from './streaking';
+export * as timebomb from './timebomb';

@@ -75,3 +75,5 @@ const attack = [
     image: null,
   },
 ]
+
+export default attack;

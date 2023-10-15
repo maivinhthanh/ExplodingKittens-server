@@ -38,7 +38,7 @@ const createUser = async (req: Request, res: Response) => {
 
     const token = await createToken(newUser);
 
-    res.json({ token });
+    res.json(token);
   } catch (e) {
     return responseError(res, { status: 500, title: "Oh no, something wrong" });
   }
@@ -67,7 +67,7 @@ const login = async (req: Request, res: Response) => {
 
     const token = await createToken(user);
 
-    res.json({ token });
+    res.json(token);
   } catch (e) {
     return responseError(res, { status: 500, title: "Oh no, something wrong" });
   }
@@ -75,13 +75,13 @@ const login = async (req: Request, res: Response) => {
 
 const getDetailMe = async (req: CustomRequest, res: Response) => {
   try {
-    const { email, name } = (req.body as { email: string; name: string }) || {};
-    if (!email || !name) {
+    const { _id } = (req.user as { _id: string }) || {};
+    if (!_id) {
       return responseBadRequest(res);
     }
 
-    const user = await userModel.findOne({ email, name }).select('-password');
-    res.json({ user });
+    const user = await userModel.findById(_id).select("-password");
+    res.json(user);
   } catch (e) {
     return responseError(res, { status: 500, title: "Oh no, something wrong" });
   }
@@ -94,8 +94,8 @@ const getDetailUser = async (req: CustomRequest, res: Response) => {
       return responseBadRequest(res);
     }
 
-    const user = await userModel.findById(id).select('-password');
-    res.json({ user });
+    const user = await userModel.findById(id).select("-password");
+    res.json(user);
   } catch (e) {
     return responseError(res, { status: 500, title: "Oh no, something wrong" });
   }
@@ -116,9 +116,9 @@ const updateUser = async (req: Request, res: Response) => {
 
     const data = { name, picture, description };
 
-    const user = await userModel.findByIdAndUpdate(id, data, {new: true});
+    const user = await userModel.findByIdAndUpdate(id, data, { new: true });
 
-    res.json({ user });
+    res.json(user);
   } catch (e) {
     return responseError(res, { status: 500, title: "Oh no, something wrong" });
   }
@@ -143,9 +143,8 @@ const refreshToken = async (
     } else {
       const user = decoded.data;
       const token = createToken(user);
-      res.json({ token });
+      res.json(token);
     }
-
   } catch (error) {
     return responseError(res, error as string);
   }

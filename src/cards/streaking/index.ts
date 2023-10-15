@@ -9,3 +9,5 @@ const streaking = [
     image: null,
   }
 ]
+
+export default streaking;

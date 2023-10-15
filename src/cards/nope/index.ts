@@ -18,3 +18,5 @@ const nope = [
     image: null,
   },
 ]
+
+export default nope;

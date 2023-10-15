@@ -27,3 +27,5 @@ const shuffle = [
     image: null,
   },
 ]
+
+export default shuffle;

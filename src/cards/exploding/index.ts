@@ -18,3 +18,5 @@ const exploding = [
     image: null,
   },
 ]
+
+export default exploding;

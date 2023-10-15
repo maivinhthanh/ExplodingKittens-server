@@ -92,3 +92,5 @@ const drawing = [
     image: null,
   }
 ]
+
+export default drawing;

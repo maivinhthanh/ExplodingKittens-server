@@ -54,3 +54,5 @@ const kittens = [
     image: null,
   }
 ]
+
+export default kittens;

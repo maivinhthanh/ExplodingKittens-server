@@ -18,3 +18,5 @@ const timebomb = [
     image: null,
   },
 ]
+
+export default timebomb;

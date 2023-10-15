@@ -72,3 +72,5 @@ const defense = [
     image: null,
   },
 ]
+
+export default defense;

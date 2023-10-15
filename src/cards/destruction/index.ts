@@ -72,3 +72,5 @@ const destruction = [
     image: null,
   },
 ]
+
+export default destruction;

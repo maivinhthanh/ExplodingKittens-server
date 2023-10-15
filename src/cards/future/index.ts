@@ -78,3 +78,5 @@ const future = [
     image: null,
   }
 ]
+
+export default future;

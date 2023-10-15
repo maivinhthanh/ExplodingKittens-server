@@ -2,10 +2,11 @@ import express, { NextFunction, Request, Response } from "express";
 import cors from "cors";
 import bodyParser from "body-parser";
 import { createServer } from "node:http";
-import { Server } from "socket.io";
+import { Server, Socket } from "socket.io";
 
 import userRoutes from "./routes/user";
 import * as database from "./database";
+import registerRoomHandlers from './socket/room';
 
 const app = express();
 const server = createServer(app);
@@ -45,6 +46,12 @@ const io = new Server({
     origin: "http://127.0.0.1:5173",
   },
 });
+
+const onConnection = (socket: Socket) => {
+  registerRoomHandlers(io, socket);
+}
+
+io.on("connection", onConnection);
 
 io.listen(portSocket);
 
