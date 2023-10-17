@@ -6,7 +6,7 @@ import { Server, Socket } from "socket.io";
 
 import userRoutes from "./routes/user";
 import * as database from "./database";
-import registerRoomHandlers from './socket/room';
+import registerRoomHandlers from "./socket/room";
 
 const app = express();
 const server = createServer(app);
@@ -14,15 +14,15 @@ const port = process.env.PORT || 3000;
 const portSocket = 4000;
 
 app.use(express.json());
-app.use(cors());
 app.use(bodyParser.json());
+app.use(cors({origin: '*'}));
 
 app.use(function (req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*"); // update to match the domain you will make the request from
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept"
-  );
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+  res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+  res.setHeader('Access-Control-Allow-Credentials', 'true');
+
   next();
 });
 
@@ -49,7 +49,7 @@ const io = new Server({
 
 const onConnection = (socket: Socket) => {
   registerRoomHandlers(io, socket);
-}
+};
 
 io.on("connection", onConnection);
 
