@@ -19,7 +19,7 @@ const kittens = [
   },
   {
     name: 'Beardcat',
-    code: 'TACOCAT',
+    code: 'BEARDCAT',
     type: 'KITTEN',
     method: null,
     limitted: 4,

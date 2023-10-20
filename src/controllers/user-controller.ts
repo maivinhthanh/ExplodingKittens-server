@@ -152,7 +152,7 @@ const refreshToken = async (
 
 const getListUser = async (req: Request, res: Response, next: NextFunction) => {
   const result = await userModel.find({});
-  res.json({ result });
+  res.json(result);
 };
 
 export {

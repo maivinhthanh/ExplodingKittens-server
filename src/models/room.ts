@@ -2,7 +2,9 @@ import mongoose, { Document, Schema } from "mongoose";
 
 interface IRoom extends Document {
   members: Array<string>,
-  cards: Array<string>
+  cards: Array<string>,
+  type: 'NORMAL' | 'PREMIUM',
+  name?: string;
 }
 
 const roomSchema: Schema<IRoom> = new Schema<IRoom>({
@@ -15,7 +17,14 @@ const roomSchema: Schema<IRoom> = new Schema<IRoom>({
     type: Schema.Types.ObjectId,
     ref: 'Card',
     required: true
-  }]
+  }],
+  type: {
+    type: String,
+    default: 'NORMAL'
+  },
+  name: {
+    type: String,
+  }
 });
 
 const Room = mongoose.model<IRoom>("Room", roomSchema);

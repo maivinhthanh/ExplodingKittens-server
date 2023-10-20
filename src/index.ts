@@ -4,9 +4,14 @@ import bodyParser from "body-parser";
 import { createServer } from "node:http";
 import { Server, Socket } from "socket.io";
 
-import userRoutes from "./routes/user";
 import * as database from "./database";
+
 import registerRoomHandlers from "./socket/room";
+
+import userRoutes from "./routes/user";
+import roomRoutes from "./routes/room";
+import cardRoutes from "./routes/card";
+
 
 const app = express();
 const server = createServer(app);
@@ -27,6 +32,8 @@ app.use(function (req, res, next) {
 });
 
 app.use("/users", userRoutes);
+app.use("/rooms", roomRoutes);
+app.use("/cards", cardRoutes);
 
 app.get("/", (req: Request, res: Response) => {
   res.send("Hello, TypeScript Express!");

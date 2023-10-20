@@ -44,14 +44,12 @@ const responseMissingArguments = (res: Response) => {
 const authorizeJWTToken = async (req: CustomRequest, res: Response, next: NextFunction) => {
   const token = await getRequestToken(req);
   if (!token) return responseNotAuthorized(res);
-
   try {
     const decoded = await verifyToken(token) as TokenPayload;
     if (decoded && decoded.data && decoded.data._id) {
       req.user = { ...decoded.data };
       return next();
     }
-
     return responseError(res, { status: 401, title: 'Not authorized' });
   } catch (e) {
     return responseError(res, { status: 500, title: 'Oh no' });
