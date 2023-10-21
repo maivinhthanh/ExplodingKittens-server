@@ -2,6 +2,7 @@ import mongoose, { Document, Schema } from "mongoose";
 
 interface ICard extends Document {
   name: string;
+  description: string;
   code: string;
   type: string;
   method: string;
@@ -13,6 +14,10 @@ interface ICard extends Document {
 
 const cardSchema: Schema<ICard> = new Schema<ICard>({
   name: {
+    type: String,
+    required: true,
+  },
+  description: {
     type: String,
     required: true,
   },

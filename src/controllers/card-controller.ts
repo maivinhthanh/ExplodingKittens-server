@@ -55,13 +55,6 @@ const getListCard = async (req: Request, res: Response, next: NextFunction) => {
   res.json(result);
 };
 
-const getListCardBasic = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  const result = await cardModel.find({});
-  res.json(result);
-};
 
-export { createCard, getListCard, getDetailCard, getListCardBasic };
+
+export { createCard, getListCard, getDetailCard };

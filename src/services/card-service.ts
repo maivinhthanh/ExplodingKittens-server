@@ -1,3 +1,5 @@
+import cardModel from "../models/card";
+
 const getBasic = async () => {
   return [
     'CATTER-MELON',
@@ -44,4 +46,13 @@ const getBasic = async () => {
   ]
 };
 
-export { getBasic };
+const getListCardBasic = async () => {
+  const listBasic = getBasic();
+  return await cardModel.find({
+    _id: {
+      $in: listBasic,
+    },
+  });
+};
+
+export { getBasic, getListCardBasic };
