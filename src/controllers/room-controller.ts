@@ -5,7 +5,9 @@ import {
   responseError,
 } from "../middleware/auth";
 import roomModel from "../models/room";
+import userModel from "../models/user";
 import { getBasic, getListCard } from "../services/card-service";
+import { CLASS } from "../libs/constant";
 
 const createRoom = async (req: Request, res: Response) => {
   let { members, cards, type, name } =
@@ -50,9 +52,32 @@ const getDetailRoom = async (req: CustomRequest, res: Response) => {
       return responseBadRequest(res);
     }
 
-    const room = await roomModel.findById(id).populate('members');
+    const room = await roomModel.findById(id).populate("members");
     const listCardDetail = await getListCard(room?.cards || []);
-    res.json({room, listCardDetail});
+    res.json({ room, listCardDetail });
+  } catch (e) {
+    return responseError(res, { status: 500, title: "Oh no, something wrong" });
+  }
+};
+
+const getListRooms = async (req: CustomRequest, res: Response) => {
+  try {
+    const { _id } = (req.user as { _id: string }) || {};
+    if (!_id) {
+      return responseBadRequest(res);
+    }
+
+    const user = await userModel.findById(_id).select("-password");
+    if (user?.class === CLASS.PREMIUM) {
+      const result = await roomModel
+        .find({
+          members: { $in: [_id] },
+        })
+        .select("-cards");
+
+      res.json(result);
+    }
+    res.end()
   } catch (e) {
     return responseError(res, { status: 500, title: "Oh no, something wrong" });
   }
@@ -79,13 +104,4 @@ const updateRoomName = async (req: Request, res: Response) => {
   }
 };
 
-const getListRooms = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  const result = await roomModel.find({});
-  res.json(result);
-};
-
-export { createRoom, getListRooms, getDetailRoom, updateRoomName };
+export { createRoom, getDetailRoom, updateRoomName, getListRooms };

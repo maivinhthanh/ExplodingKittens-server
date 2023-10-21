@@ -1,4 +1,5 @@
 import mongoose, { Document, Schema } from "mongoose";
+import { CLASS } from "../libs/constant";
 
 interface IUser extends Document {
   email: string;
@@ -39,7 +40,8 @@ const userSchema: Schema<IUser> = new Schema<IUser>({
   },
   class: {
     type: String,
-    default: 'NORMAL',
+    default: CLASS.NORMAL,
+    required: true,
   },
   hidden: { type: Boolean, default: false },
   isonline: { type: Boolean, default: false },
