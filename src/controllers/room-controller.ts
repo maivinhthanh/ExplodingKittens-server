@@ -5,6 +5,7 @@ import {
   responseError,
 } from "../middleware/auth";
 import roomModel from "../models/room";
+import { getBasic, getListCard } from "../services/card-service";
 
 const createRoom = async (req: Request, res: Response) => {
   let { members, cards, type, name } =
@@ -14,12 +15,13 @@ const createRoom = async (req: Request, res: Response) => {
       type: string;
       name: string;
     }) || {};
-  if (members.length === 0 && cards.length === 0) {
+  if (members.length === 0) {
     return responseBadRequest(res);
   }
 
   if (!type) {
     type = "NORMAL";
+    cards = getBasic();
   }
 
   try {
@@ -48,8 +50,9 @@ const getDetailRoom = async (req: CustomRequest, res: Response) => {
       return responseBadRequest(res);
     }
 
-    const user = await roomModel.findById(id);
-    res.json(user);
+    const room = await roomModel.findById(id).populate('members');
+    const listCardDetail = await getListCard(room?.cards || []);
+    res.json({room, listCardDetail});
   } catch (e) {
     return responseError(res, { status: 500, title: "Oh no, something wrong" });
   }

@@ -11,6 +11,7 @@ interface IUser extends Document {
   coin: number;
   level: number;
   score: number;
+  class: string;
   datecreate: Date;
   dateedit?: Date;
 }
@@ -35,6 +36,10 @@ const userSchema: Schema<IUser> = new Schema<IUser>({
   picture: {
     type: String,
     default: null,
+  },
+  class: {
+    type: String,
+    default: 'NORMAL',
   },
   hidden: { type: Boolean, default: false },
   isonline: { type: Boolean, default: false },

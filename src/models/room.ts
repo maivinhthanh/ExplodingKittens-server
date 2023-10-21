@@ -14,9 +14,7 @@ const roomSchema: Schema<IRoom> = new Schema<IRoom>({
     required: true
   }],
   cards: [{
-    type: Schema.Types.ObjectId,
-    ref: 'Card',
-    required: true
+    type: String,
   }],
   type: {
     type: String,
