@@ -51,22 +51,17 @@ const login = async (req: Request, res: Response) => {
     if (!email && !password) {
       return responseBadRequest(res);
     }
-
     const user = await userModel.findOne({ email });
-
     if (!user) {
       return responseError(res, { status: 404, title: "User not found" });
     }
-
     if (password !== user.password) {
       return responseError(res, {
         status: 404,
         title: "Password is incorrect",
       });
     }
-
     const token = await createToken(user);
-
     res.json(token);
   } catch (e) {
     return responseError(res, { status: 500, title: "Oh no, something wrong" });
@@ -155,6 +150,19 @@ const getListUser = async (req: Request, res: Response, next: NextFunction) => {
   res.json(result);
 };
 
+const searchUser = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const { email } = (req.body as { email: string }) || {};
+    if (!email) {
+      return responseBadRequest(res);
+    }
+    const result = await userModel.find({email: { $regex: '.*' + email + '.*' } });
+    res.json(result);
+  } catch (error) {
+    return responseError(res, error as string);
+  }
+};
+
 export {
   createUser,
   getListUser,
@@ -163,4 +171,5 @@ export {
   getDetailUser,
   updateUser,
   refreshToken,
+  searchUser
 };

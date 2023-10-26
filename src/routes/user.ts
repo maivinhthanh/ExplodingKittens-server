@@ -11,5 +11,6 @@ router.get("/profile/:id", authorizeJWTToken, userController.getDetailUser);
 router.put("/update/:id", authorizeJWTToken, userController.updateUser);
 router.post("/refresh", userController.refreshToken);
 router.get("/", userController.getListUser);
+router.post("/search", userController.searchUser);
 
 export default router;
