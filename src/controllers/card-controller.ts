@@ -5,6 +5,7 @@ import {
   responseError,
 } from "../middleware/auth";
 import cardModel, { ICard } from "../models/card";
+import { getListCardBasic, getListCardExceptBasic } from "../services/card-service";
 
 const createCard = async (req: Request, res: Response) => {
   let { name, code, type, method, limitted, times, logo, image } =
@@ -51,10 +52,15 @@ const getDetailCard = async (req: CustomRequest, res: Response) => {
 };
 
 const getListCard = async (req: Request, res: Response, next: NextFunction) => {
-  const result = await cardModel.find({});
-  res.json(result);
+  const { isBasic } = (req.params as { isBasic: string }) || {};
+
+  if (isBasic === "true") {
+    const result = await getListCardBasic();
+    res.json(result);
+  } else {
+    const result = await getListCardExceptBasic();
+    res.json(result);
+  }
 };
-
-
 
 export { createCard, getListCard, getDetailCard };

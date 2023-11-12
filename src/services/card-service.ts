@@ -50,8 +50,22 @@ const getListCardBasic = async () => {
   const listBasic = getBasic();
   const listUniqueCard = [...new Set(listBasic)]
   return await cardModel.find({
-    _id: {
+    code: {
       $in: listUniqueCard,
+    },
+  });
+};
+
+const getListCardExceptBasic = async () => {
+  const listBasic = getBasic();
+  const listUniqueCard = [...new Set(listBasic)];
+  listUniqueCard.push('EXPLODING-KITTEN');
+  listUniqueCard.push('DEFUSE');
+  return await cardModel.find({
+    code: {
+      $not: {
+        $in: listUniqueCard,
+      }
     },
   });
 };
@@ -65,4 +79,4 @@ const getListCard = async (listCard: string[]) => {
   });
 };
 
-export { getBasic, getListCardBasic, getListCard };
+export { getBasic, getListCardBasic, getListCardExceptBasic, getListCard };
