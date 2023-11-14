@@ -6,7 +6,7 @@ import {
 } from "../middleware/auth";
 import roomModel from "../models/room";
 import userModel from "../models/user";
-import { getBasic, getListCard } from "../services/card-service";
+import { getBasic, getListCard, getCat } from "../services/card-service";
 import { CLASS } from "../libs/constant";
 
 const createRoom = async (req: Request, res: Response) => {
@@ -24,6 +24,9 @@ const createRoom = async (req: Request, res: Response) => {
   if (!type) {
     type = "NORMAL";
     cards = getBasic();
+  } else {
+    const listCat = getCat();
+    cards = [...cards, ...listCat];
   }
 
   try {
@@ -67,17 +70,13 @@ const getListRooms = async (req: CustomRequest, res: Response) => {
       return responseBadRequest(res);
     }
 
-    const user = await userModel.findById(_id).select("-password");
-    if (user?.class === CLASS.PREMIUM) {
-      const result = await roomModel
-        .find({
-          members: { $in: [_id] },
-        })
-        .select("-cards");
+    const result = await roomModel
+      .find({
+        members: _id,
+      })
+      .select("-cards");
 
-      res.json(result);
-    }
-    res.end()
+    res.json(result);
   } catch (e) {
     return responseError(res, { status: 500, title: "Oh no, something wrong" });
   }
