@@ -1,13 +1,11 @@
-import { Request, Response, NextFunction } from "express";
+import { Request, Response } from "express";
 import {
   CustomRequest,
   responseBadRequest,
   responseError,
 } from "../middleware/auth";
 import roomModel from "../models/room";
-import userModel from "../models/user";
 import { getBasic, getListCard, getCat } from "../services/card-service";
-import { CLASS } from "../libs/constant";
 
 const createRoom = async (req: Request, res: Response) => {
   let { members, cards, type, name } =
@@ -70,7 +68,9 @@ const getMembersRoom = async (req: CustomRequest, res: Response) => {
       return responseBadRequest(res);
     }
 
-    const room = await roomModel.findById(id).select('members').populate("members", '_id name email');
+    const room = await roomModel
+      .findById(id)
+      .select("members.")
     res.json({ room });
   } catch (e) {
     return responseError(res, { status: 500, title: "Oh no, something wrong" });
@@ -117,4 +117,10 @@ const updateRoomName = async (req: Request, res: Response) => {
   }
 };
 
-export { createRoom, getDetailRoom, updateRoomName, getListRooms, getMembersRoom };
+export {
+  createRoom,
+  getDetailRoom,
+  updateRoomName,
+  getListRooms,
+  getMembersRoom,
+};

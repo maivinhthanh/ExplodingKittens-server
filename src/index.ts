@@ -11,7 +11,7 @@ import registerRoomHandlers from "./socket/room";
 import userRoutes from "./routes/user";
 import roomRoutes from "./routes/room";
 import cardRoutes from "./routes/card";
-
+import gameRoutes from "./routes/game";
 
 const app = express();
 const server = createServer(app);
@@ -34,6 +34,7 @@ app.use(function (req, res, next) {
 app.use("/users", userRoutes);
 app.use("/rooms", roomRoutes);
 app.use("/cards", cardRoutes);
+app.use("/games", gameRoutes);
 
 app.get("/", (req: Request, res: Response) => {
   res.send("Hello, TypeScript Express!");
