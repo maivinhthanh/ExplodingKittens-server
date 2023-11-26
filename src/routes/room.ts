@@ -6,6 +6,7 @@ const router: Router = express.Router();
 
 router.post("/create", authorizeJWTToken, roomController.createRoom);
 router.get("/:id", authorizeJWTToken, roomController.getDetailRoom);
+router.get("/:id/member", authorizeJWTToken, roomController.getMembersRoom);
 router.patch("/update-name/:id", authorizeJWTToken, roomController.updateRoomName);
 router.get("/", authorizeJWTToken, roomController.getListRooms);
 

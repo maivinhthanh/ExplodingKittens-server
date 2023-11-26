@@ -23,6 +23,7 @@ const init = () => {
     const uri = process.env.DB_CONN_STRING || "mongodb+srv://pheninketonieu:12345654321@cluster0.jxptydv.mongodb.net/explodingkittens?retryWrites=true&w=majority";
     connectDB(uri)
       .then((client) => {
+        console.error('connectDB success');
         resolve();
       })
       .catch((e) => {

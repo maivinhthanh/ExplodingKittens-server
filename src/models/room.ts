@@ -11,7 +11,8 @@ const roomSchema: Schema<IRoom> = new Schema<IRoom>({
   members: [{
     type: Schema.Types.ObjectId,
     ref: 'User',
-    required: true
+    required: true,
+    index: true,
   }],
   cards: [{
     type: String,

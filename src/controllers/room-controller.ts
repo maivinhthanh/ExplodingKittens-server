@@ -63,6 +63,20 @@ const getDetailRoom = async (req: CustomRequest, res: Response) => {
   }
 };
 
+const getMembersRoom = async (req: CustomRequest, res: Response) => {
+  try {
+    const { id } = (req.params as { id: string }) || {};
+    if (!id) {
+      return responseBadRequest(res);
+    }
+
+    const room = await roomModel.findById(id).select('members').populate("members", '_id name email');
+    res.json({ room });
+  } catch (e) {
+    return responseError(res, { status: 500, title: "Oh no, something wrong" });
+  }
+};
+
 const getListRooms = async (req: CustomRequest, res: Response) => {
   try {
     const { _id } = (req.user as { _id: string }) || {};
@@ -103,4 +117,4 @@ const updateRoomName = async (req: Request, res: Response) => {
   }
 };
 
-export { createRoom, getDetailRoom, updateRoomName, getListRooms };
+export { createRoom, getDetailRoom, updateRoomName, getListRooms, getMembersRoom };
