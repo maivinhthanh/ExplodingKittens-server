@@ -13,7 +13,9 @@ interface IGame extends Document {
   usedCards: Array<string>,
   winner?: Schema.Types.ObjectId,
   runnerUp?: Schema.Types.ObjectId,
-  room: Schema.Types.ObjectId
+  room: Schema.Types.ObjectId,
+  datecreate: Date;
+  dateedit?: Date;
 }
 
 const gameSchema: Schema<IGame> = new Schema<IGame>({
@@ -55,7 +57,9 @@ const gameSchema: Schema<IGame> = new Schema<IGame>({
   room: {
     type: Schema.Types.ObjectId,
     ref: 'Room',
-  }
+  },
+  datecreate: { type: Date, default: Date.now },
+  dateedit: { type: Date },
 });
 
 const Game = mongoose.model<IGame>("Game", gameSchema);

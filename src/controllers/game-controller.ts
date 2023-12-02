@@ -55,9 +55,11 @@ const getDetailGame = async (req: CustomRequest, res: Response) => {
       return responseBadRequest(res);
     }
 
-    const game = await gameModel
+    let game = await gameModel
       .findById(id)
-      .select("members.memberid members.isOnline members.isAlive room");
+      .select("members.memberid members.isOnline members.isAlive room")
+      .populate("members.memberid", "_id name email");
+
     res.json(game);
   } catch (e) {
     return responseError(res, { status: 500, title: "Oh no, something wrong" });
@@ -73,9 +75,11 @@ const getListGames = async (req: CustomRequest, res: Response) => {
 
     const result = await gameModel
       .find({
-        members: { memberid: _id },
+        "members.memberid": _id,
       })
-      .select("members.memberid members.isOnline members.isAlive room");
+      .select(
+        "members.memberid members.isOnline members.isAlive room datecreate"
+      );
 
     res.json(result);
   } catch (e) {

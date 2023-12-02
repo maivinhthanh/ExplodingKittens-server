@@ -70,8 +70,9 @@ const getMembersRoom = async (req: CustomRequest, res: Response) => {
 
     const room = await roomModel
       .findById(id)
-      .select("members.")
-    res.json({ room });
+      .select("members _id")
+      .populate("members", "_id name email");
+    res.json(room);
   } catch (e) {
     return responseError(res, { status: 500, title: "Oh no, something wrong" });
   }
